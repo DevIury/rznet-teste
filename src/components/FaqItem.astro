@@ -1,0 +1,54 @@
+---
+interface Props {
+  question: string;
+  answer: string;
+}
+
+const { question, answer } = Astro.props;
+---
+
+<div class="faq-item glass rounded-xl overflow-hidden border border-white/5">
+  <button
+    class="faq-trigger flex items-center justify-between w-full px-6 py-5 text-left transition-colors hover:bg-white/5"
+    aria-expanded="false"
+  >
+    <span class="text-base font-medium text-white pr-4">{question}</span>
+    <svg class="faq-icon h-5 w-5 text-brand shrink-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    </svg>
+  </button>
+  <div class="faq-content px-6 overflow-hidden transition-all duration-300" style="max-height: 0;">
+    <p class="text-sm text-gray-400 leading-relaxed pb-5">{answer}</p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.faq-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const item = trigger.closest('.faq-item');
+      const content = item?.querySelector('.faq-content');
+      const icon = trigger.querySelector('.faq-icon');
+      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+
+      document.querySelectorAll('.faq-trigger').forEach(otherTrigger => {
+        if (otherTrigger !== trigger) {
+          const otherItem = otherTrigger.closest('.faq-item');
+          const otherContent = otherItem?.querySelector('.faq-content');
+          const otherIcon = otherTrigger.querySelector('.faq-icon');
+          otherTrigger.setAttribute('aria-expanded', 'false');
+          otherContent?.style.setProperty('max-height', '0');
+          otherIcon?.style.setProperty('transform', 'rotate(0deg)');
+        }
+      });
+
+      trigger.setAttribute('aria-expanded', String(!isExpanded));
+      if (!isExpanded) {
+        content?.style.setProperty('max-height', `${content.scrollHeight}px`);
+        icon?.style.setProperty('transform', 'rotate(180deg)');
+      } else {
+        content?.style.setProperty('max-height', '0');
+        icon?.style.setProperty('transform', 'rotate(0deg)');
+      }
+    });
+  });
+</script>
