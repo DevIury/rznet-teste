@@ -9,7 +9,7 @@ const { question, answer } = Astro.props;
 
 <div class="faq-item group relative rounded-2xl bg-white/[0.03] border border-white/[0.06] overflow-hidden transition-all duration-500 hover:border-white/[0.12]">
   <button
-    class="faq-trigger flex items-center justify-between w-full px-6 sm:px-8 py-5 sm:py-6 text-left gap-4"
+    class="faq-trigger flex items-center justify-between w-full px-6 sm:px-8 py-6 sm:py-7 text-left gap-4"
     aria-expanded="false"
   >
     <span class="text-sm sm:text-base font-semibold text-white/90 group-hover:text-white transition-colors leading-snug pr-2">{question}</span>
@@ -20,8 +20,8 @@ const { question, answer } = Astro.props;
     </div>
   </button>
   <div class="faq-content overflow-hidden transition-all duration-400" style="max-height: 0;">
-    <div class="px-6 sm:px-8 pb-6 sm:pb-7 pt-0">
-      <div class="h-px bg-gradient-to-r from-brand/20 via-white/[0.06] to-transparent mb-5"></div>
+    <div class="px-6 sm:px-8 pb-7 sm:pb-8 pt-0">
+      <div class="h-px bg-gradient-to-r from-brand/20 via-white/[0.06] to-transparent mb-6"></div>
       <p class="text-sm sm:text-[15px] text-gray-400 leading-relaxed">{answer}</p>
     </div>
   </div>
