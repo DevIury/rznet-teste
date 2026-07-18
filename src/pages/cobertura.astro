@@ -40,31 +40,33 @@ const cities = [
     </div>
   </section>
 
-  <section class="relative pb-24">
+  <section class="relative py-24">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
         <div>
-          <h2 class="text-2xl font-bold text-white mb-6">Áreas Atendidas</h2>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <h2 class="text-3xl font-bold text-white mb-8">Áreas Atendidas</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {cities.map((city) => (
-              <div class="glass rounded-xl px-4 py-3 text-sm text-gray-300 border border-white/5 hover:border-brand/30 transition-colors">
-                <svg class="h-4 w-4 text-brand inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-                {city}
+              <div class="glass rounded-xl px-5 py-4 border border-white/5 hover:border-brand/30 transition-colors">
+                <div class="flex items-center gap-2">
+                  <svg class="h-4 w-4 text-brand shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  </svg>
+                  <span class="text-sm text-gray-300 truncate">{city}</span>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         <div>
-          <h2 class="text-2xl font-bold text-white mb-6">Mapa de Cobertura</h2>
+          <h2 class="text-3xl font-bold text-white mb-8">Mapa de Cobertura</h2>
           <div class="glass rounded-2xl overflow-hidden border border-white/5">
             <iframe
               src="https://www.google.com/maps/d/embed?mid=1y7pzr-QpU272zWMCcUunhY0uFkzOEoU6&ll=-26.217055088737304,-49.97406004999999&z=9"
               width="100%"
-              height="450"
+              height="550"
               style="border:0; filter: invert(90%) hue-rotate(180deg) brightness(0.9) contrast(1.1);"
               allowfullscreen
               loading="lazy"
