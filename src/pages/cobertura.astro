@@ -42,37 +42,63 @@ const cities = [
 
   <section class="relative py-24">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-        <div>
-          <h2 class="text-3xl font-bold text-white mb-8">Áreas Atendidas</h2>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {cities.map((city) => (
-              <div class="glass rounded-xl px-5 py-4 border border-white/5 hover:border-brand/30 transition-colors">
-                <div class="flex items-center gap-2">
-                  <svg class="h-4 w-4 text-brand shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                  </svg>
-                  <span class="text-sm text-gray-300 truncate">{city}</span>
-                </div>
+      <div class="text-center mb-16">
+        <span class="inline-block text-sm font-bold text-brand tracking-[0.2em] uppercase mb-4">Nossa Rede</span>
+        <h2 class="text-4xl sm:text-5xl font-black text-white mb-6 tracking-tight">
+          17 cidades <span class="text-brand">conectadas</span>
+        </h2>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+          A RzNet Fibra está presente em toda a região, levando internet de qualidade para você.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+        <div class="lg:col-span-2">
+          <div class="rounded-3xl p-8 bg-gradient-to-br from-white/[0.04] to-transparent border border-white/[0.06]">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/15 border border-brand/20">
+                <svg class="h-5 w-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
               </div>
-            ))}
+              <h3 class="text-xl font-bold text-white">Áreas Atendidas</h3>
+            </div>
+            <div class="space-y-2">
+              {cities.map((city) => (
+                <div class="group flex items-center gap-3 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.05] hover:border-brand/30 hover:bg-brand/[0.05] transition-all duration-300">
+                  <svg class="h-3.5 w-3.5 text-brand shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="4"/>
+                  </svg>
+                  <span class="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">{city}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div>
-          <h2 class="text-3xl font-bold text-white mb-8">Mapa de Cobertura</h2>
-          <div class="glass rounded-2xl overflow-hidden border border-white/5">
-            <iframe
-              src="https://www.google.com/maps/d/embed?mid=1y7pzr-QpU272zWMCcUunhY0uFkzOEoU6&ll=-26.217055088737304,-49.97406004999999&z=9"
-              width="100%"
-              height="550"
-              style="border:0; filter: invert(90%) hue-rotate(180deg) brightness(0.9) contrast(1.1);"
-              allowfullscreen
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              title="Mapa de Cobertura RzNet"
-            ></iframe>
+        <div class="lg:col-span-3">
+          <div class="rounded-3xl p-8 bg-gradient-to-br from-white/[0.04] to-transparent border border-white/[0.06]">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/15 border border-brand/20">
+                <svg class="h-5 w-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-white">Mapa de Cobertura</h3>
+            </div>
+            <div class="rounded-2xl overflow-hidden border border-white/[0.05] h-[480px]">
+              <iframe
+                src="https://www.google.com/maps/d/embed?mid=1y7pzr-QpU272zWMCcUunhY0uFkzOEoU6&ll=-26.217055088737304,-49.97406004999999&z=9"
+                width="100%"
+                height="100%"
+                style="border:0; filter: invert(90%) hue-rotate(180deg) brightness(0.9) contrast(1.1);"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Mapa de Cobertura RzNet"
+              ></iframe>
+            </div>
           </div>
         </div>
       </div>
