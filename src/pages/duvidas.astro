@@ -50,9 +50,9 @@ const faqs = [
     </div>
   </section>
 
-  <section class="relative pb-24">
+  <section class="relative py-20 sm:py-24">
     <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-      <div class="space-y-4">
+      <div class="space-y-3 sm:space-y-4">
         {faqs.map((faq) => (
           <FaqItem question={faq.question} answer={faq.answer} />
         ))}

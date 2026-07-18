@@ -7,18 +7,23 @@ interface Props {
 const { question, answer } = Astro.props;
 ---
 
-<div class="faq-item glass rounded-xl overflow-hidden border border-white/5">
+<div class="faq-item group relative rounded-2xl bg-white/[0.03] border border-white/[0.06] overflow-hidden transition-all duration-500 hover:border-white/[0.12]">
   <button
-    class="faq-trigger flex items-center justify-between w-full px-6 py-5 text-left transition-colors hover:bg-white/5"
+    class="faq-trigger flex items-center justify-between w-full px-6 sm:px-8 py-5 sm:py-6 text-left gap-4"
     aria-expanded="false"
   >
-    <span class="text-base font-medium text-white pr-4">{question}</span>
-    <svg class="faq-icon h-5 w-5 text-brand shrink-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-    </svg>
+    <span class="text-sm sm:text-base font-semibold text-white/90 group-hover:text-white transition-colors leading-snug pr-2">{question}</span>
+    <div class="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-white/[0.05] border border-white/[0.08] group-hover:bg-brand/10 group-hover:border-brand/20 transition-all duration-300">
+      <svg class="faq-icon h-4 w-4 text-brand transition-transform duration-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v12m6-6H6"/>
+      </svg>
+    </div>
   </button>
-  <div class="faq-content px-6 overflow-hidden transition-all duration-300" style="max-height: 0;">
-    <p class="text-sm text-gray-400 leading-relaxed pb-5">{answer}</p>
+  <div class="faq-content overflow-hidden transition-all duration-400" style="max-height: 0;">
+    <div class="px-6 sm:px-8 pb-6 sm:pb-7 pt-0">
+      <div class="h-px bg-gradient-to-r from-brand/20 via-white/[0.06] to-transparent mb-5"></div>
+      <p class="text-sm sm:text-[15px] text-gray-400 leading-relaxed">{answer}</p>
+    </div>
   </div>
 </div>
 
@@ -38,16 +43,22 @@ const { question, answer } = Astro.props;
           otherTrigger.setAttribute('aria-expanded', 'false');
           otherContent?.style.setProperty('max-height', '0');
           otherIcon?.style.setProperty('transform', 'rotate(0deg)');
+          otherItem?.classList.remove('border-brand/20', 'bg-brand/[0.03]');
+          otherItem?.classList.add('border-white/[0.06]');
         }
       });
 
       trigger.setAttribute('aria-expanded', String(!isExpanded));
       if (!isExpanded) {
-        content?.style.setProperty('max-height', `${content.scrollHeight}px`);
-        icon?.style.setProperty('transform', 'rotate(180deg)');
+        content?.style.setProperty('max-height', `${content.scrollHeight + 20}px`);
+        icon?.style.setProperty('transform', 'rotate(45deg)');
+        item?.classList.add('border-brand/20', 'bg-brand/[0.02]');
+        item?.classList.remove('border-white/[0.06]');
       } else {
         content?.style.setProperty('max-height', '0');
         icon?.style.setProperty('transform', 'rotate(0deg)');
+        item?.classList.remove('border-brand/20', 'bg-brand/[0.02]');
+        item?.classList.add('border-white/[0.06]');
       }
     });
   });
