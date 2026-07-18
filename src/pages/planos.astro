@@ -6,7 +6,7 @@ const plans = [
   {
     name: 'Pessoal',
     speed: '100',
-    price: '89,90',
+    price: '79,90',
     features: [
       '100 Mbps de velocidade',
       'Internet ilimitada',
@@ -18,7 +18,7 @@ const plans = [
   {
     name: 'Família',
     speed: '200',
-    price: '119,90',
+    price: '99,90',
     features: [
       '200 Mbps de velocidade',
       'Internet ilimitada',
@@ -32,7 +32,7 @@ const plans = [
   {
     name: 'Premium',
     speed: '500',
-    price: '159,90',
+    price: '139,90',
     features: [
       '500 Mbps de velocidade',
       'Internet ilimitada',
@@ -49,7 +49,7 @@ const plansEmpresa = [
   {
     name: 'Business',
     speed: '300',
-    price: '249,90',
+    price: '199,90',
     features: [
       '300 Mbps simétrico',
       'Internet ilimitada',
@@ -62,7 +62,7 @@ const plansEmpresa = [
   {
     name: 'Enterprise',
     speed: '1000',
-    price: '499,90',
+    price: '399,90',
     features: [
       '1 Gbps simétrico',
       'Internet ilimitada',
@@ -101,7 +101,7 @@ const plansEmpresa = [
         <p class="text-gray-500">Planos residenciais com a melhor qualidade</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-24">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-24 items-stretch">
         {plans.map((plan) => (
           <PlanCard
             name={plan.name}
@@ -118,7 +118,7 @@ const plansEmpresa = [
         <p class="text-gray-500">Planos corporativos com suporte dedicado</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
         {plansEmpresa.map((plan) => (
           <PlanCard
             name={plan.name}
