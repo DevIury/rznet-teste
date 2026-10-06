@@ -1,0 +1,58 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  num?: string;
+  label: string;
+  title: string;
+  lead?: string;
+  href?: string;
+  linkLabel?: string;
+  onRed?: boolean;
+}
+
+const { num, label, title, lead, href, linkLabel, onRed = false } = Astro.props;
+---
+
+<div>
+  <div class="flex items-center gap-3.5">
+    {num && <span class:list={['num', onRed && 'num-red']}>{num}</span>}
+    <span class:list={['mono', onRed ? 'text-ink/70' : 'text-brand']}>{label}</span>
+    <span class:list={['h-px w-16 sm:w-24', onRed ? 'bg-ink/25' : 'bg-line']}></span>
+  </div>
+
+  <div class="mt-5 flex flex-wrap items-end justify-between gap-5">
+<div data-reveal>
+      <h2
+        class:list={['display sec-title', onRed ? 'text-ink' : 'text-ink']}
+        set:html={title}
+      />
+      {
+        lead && (
+          <p class:list={['mt-4 max-w-xl text-[15px] leading-relaxed', onRed ? 'text-ink/75' : 'lead']}>
+            {lead}
+          </p>
+        )
+      }
+    </div>
+
+    {
+      href && linkLabel && (
+        <a
+          href={href}
+          class:list={['btn btn-sm', onRed ? 'btn-dark' : 'btn-outline']}
+        >
+          {linkLabel}
+          <Icon name="arrowRight" class="h-4 w-4" />
+        </a>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .num-red {
+    border-color: rgb(10 10 10 / 0.35);
+    color: rgb(10 10 10 / 0.75);
+  }
+</style>

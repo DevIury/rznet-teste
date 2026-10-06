@@ -1,0 +1,497 @@
+---
+import Icon from './Icon.astro';
+import { whatsappUrl } from '../data/site';
+import { personalPlans } from '../data/plans';
+---
+
+<aside id="plan-recommender" class="offer rise-card" aria-label="Recomendador de planos">
+  <header class="offer-head">
+    <p class="mono text-white">Qual plano é pra você?</p>
+    <p class="mono text-white" id="rec-count" aria-live="polite">01 / 02</p>
+  </header>
+
+  <div class="offer-progress" aria-hidden="true"><span id="rec-progress"></span></div>
+
+  <section class="step" data-step="1">
+    <h2 class="display offer-q">Quantas pessoas usam a internet?</h2>
+    <div class="opt-list" role="group" aria-label="Número de pessoas na residência">
+      <button type="button" class="opt" data-score="1">1 a 2 pessoas</button>
+      <button type="button" class="opt" data-score="2">3 a 4 pessoas</button>
+      <button type="button" class="opt" data-score="3">5 ou mais pessoas</button>
+    </div>
+  </section>
+
+  <section class="step" data-step="2" hidden>
+    <button type="button" class="mono offer-back" id="rec-back">&larr; Voltar</button>
+    <h2 class="display offer-q">Qual o uso principal?</h2>
+    <div class="opt-list" role="group" aria-label="Uso principal da internet">
+      <button type="button" class="opt" data-score="1">Filmes e séries em 4K</button>
+      <button type="button" class="opt" data-score="2">Home office e estudos</button>
+      <button type="button" class="opt" data-score="3">Jogos e videochamadas</button>
+    </div>
+  </section>
+
+  <section class="step" data-step="3" hidden aria-live="polite">
+    <p class="mono text-white">Seu plano ideal é</p>
+    <p class="display offer-result-name" id="rec-name"></p>
+
+    <div class="offer-price">
+      <span class="mono text-white">a partir de</span>
+      <span class="display text-white" id="rec-price"></span>
+      <span class="mono text-white">/mês</span>
+    </div>
+
+    <div class="offer-meter" aria-hidden="true">
+      <div class="offer-meter-track"><span class="offer-meter-fill" id="rec-meter"></span></div>
+      <span class="mono offer-meter-label" id="rec-speed"></span>
+    </div>
+
+    <ul class="offer-list" id="rec-features"></ul>
+
+    <a
+      href={whatsappUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn btn-dark w-full"
+      id="rec-cta"
+    >
+      <Icon name="whatsapp" class="h-4 w-4" />
+      Assinar no WhatsApp
+    </a>
+
+    <div class="offer-foot">
+      <button type="button" class="offer-link" id="rec-reset">Refazer teste</button>
+      <a class="offer-link offer-link-primary" href="#planos">Ver todos os planos &rarr;</a>
+    </div>
+  </section>
+
+  <p class="mono offer-note">Sem fidelidade · Instalação grátis</p>
+
+  <noscript>
+    <p class="mono offer-note">
+      Ative o JavaScript ou <a class="offer-note-link" href="#planos">veja todos os planos</a>
+    </p>
+  </noscript>
+</aside>
+
+<style>
+  .offer {
+    position: relative;
+    align-self: start;
+    overflow: hidden;
+    background-color: var(--color-brand);
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    border: 1px solid rgb(255 255 255 / 0.3);
+    box-shadow: 0 50px 90px -40px rgb(255 0 0 / 0.6);
+    animation: riseCard 0.95s 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+    transition:
+      transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+      box-shadow 0.4s ease;
+  }
+
+  .offer:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 62px 100px -40px rgb(255 0 0 / 0.75);
+  }
+
+  @keyframes riseCard {
+    from {
+      opacity: 0;
+      transform: translateY(46px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .offer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgb(10 10 10 / 0.18) 1px, transparent 1.2px);
+    background-size: 9px 9px;
+    -webkit-mask-image: linear-gradient(to bottom left, transparent 35%, black);
+    mask-image: linear-gradient(to bottom left, transparent 35%, black);
+    pointer-events: none;
+  }
+
+  .offer::after {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border: 1px solid rgb(255 255 255 / 0.3);
+    pointer-events: none;
+    transition: inset 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .offer:hover::after {
+    inset: 14px;
+  }
+
+  .offer > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .offer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .offer-progress {
+    height: 4px;
+    margin-top: 1rem;
+    background: rgb(10 10 10 / 0.3);
+    overflow: hidden;
+  }
+
+  .offer-progress span {
+    display: block;
+    width: 33.33%;
+    height: 100%;
+    background: #fff;
+    transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .step:not([hidden]) {
+    animation: stepIn 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+
+  @keyframes stepIn {
+    from {
+      opacity: 0;
+      transform: translateX(24px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .offer-q {
+    margin-top: 1.5rem;
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    color: #fff;
+  }
+
+  .offer-back {
+    display: inline-block;
+    margin-top: 1.1rem;
+    color: #fff;
+    transition: opacity 0.25s ease;
+  }
+
+  .offer-back:hover {
+    opacity: 0.7;
+  }
+
+  .step[data-step='2'] .offer-q {
+    margin-top: 0.9rem;
+  }
+
+  .opt-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 1.35rem;
+  }
+
+  .opt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border: 1px solid var(--color-ink);
+    background: var(--color-ink);
+    padding: 0.95rem 1.35rem;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease,
+      transform 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .opt::after {
+    content: '→';
+    font-size: 0.95rem;
+    opacity: 0.7;
+    transition:
+      transform 0.25s ease,
+      opacity 0.25s ease;
+  }
+
+  .opt:hover {
+    background: #fff;
+    border-color: #fff;
+    color: var(--color-ink);
+    transform: translateY(-2px);
+  }
+
+  .opt:hover::after {
+    transform: translateX(3px);
+    opacity: 1;
+  }
+
+  .opt.is-active {
+    background: #fff;
+    border-color: #fff;
+    color: var(--color-ink);
+    box-shadow: inset 3px 0 0 var(--color-brand);
+  }
+
+  .offer-result-name {
+    margin-top: 0.5rem;
+    font-size: clamp(2.1rem, 4vw, 2.9rem);
+    color: #fff;
+  }
+
+  .offer-price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-top: 1.35rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgb(10 10 10 / 0.25);
+  }
+
+  .offer-price .display {
+    font-size: clamp(2.1rem, 4vw, 2.9rem);
+  }
+
+  .offer-meter {
+    margin-top: 1.1rem;
+  }
+
+  .offer-meter-track {
+    height: 6px;
+    background: rgb(10 10 10 / 0.3);
+    overflow: hidden;
+  }
+
+  .offer-meter-fill {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--color-ink);
+    transform-origin: left center;
+    transition: width 0.9s 0.15s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .offer-meter-label {
+    display: block;
+    margin-top: 0.55rem;
+    color: #fff;
+  }
+
+  .offer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-top: 1.35rem;
+    padding-bottom: 1.6rem;
+    border-bottom: 1px solid rgb(10 10 10 / 0.25);
+  }
+
+  :global(#rec-features li) {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.9375rem;
+    color: #fff;
+    animation: stepIn 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 60ms + 150ms);
+  }
+
+  :global(#rec-features li svg) {
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .offer .btn-dark {
+    margin-top: 1.6rem;
+  }
+
+  .offer-foot {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .offer-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex: 1 1 auto;
+    min-width: 10.5rem;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid rgb(255 255 255 / 0.65);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease,
+      border-color 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .offer-link:hover {
+    background: #fff;
+    border-color: #fff;
+    color: var(--color-brand-dark);
+    transform: translateY(-2px);
+  }
+
+  .offer-link:active {
+    transform: translateY(0);
+  }
+
+  .offer-link-primary {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+
+  .offer-link-primary:hover {
+    background: #fff;
+    border-color: #fff;
+    color: var(--color-ink);
+  }
+
+  .offer-note {
+    margin-top: 1.1rem;
+    text-align: center;
+    color: #fff;
+  }
+
+  .offer-note a {
+    color: #fff;
+  }
+
+  .offer-note-link {
+    color: #fff;
+    border-bottom: 1px solid rgb(255 255 255 / 0.6);
+    text-decoration: none;
+    transition: border-color 0.25s ease;
+  }
+
+  .offer-note-link:hover {
+    border-bottom-color: #fff;
+  }
+</style>
+
+<script>
+  import { whatsappUrl } from '../data/site';
+  import { personalPlans } from '../data/plans';
+
+  const root = document.getElementById('plan-recommender');
+
+  if (root) {
+    const steps = Array.from(root.querySelectorAll<HTMLElement>('[data-step]'));
+    const progress = root.querySelector<HTMLElement>('#rec-progress');
+    const count = root.querySelector<HTMLElement>('#rec-count');
+    const answers = { house: 0, use: 0 };
+
+    const checkSvg =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg>';
+
+    const show = (n: number) => {
+      steps.forEach((step) => {
+        step.hidden = Number(step.dataset.step) !== n;
+      });
+      if (progress) progress.style.width = `${(n / 3) * 100}%`;
+      if (count) count.textContent = n <= 2 ? `0${n} / 02` : 'Resultado';
+    };
+
+    const mark = (button: HTMLButtonElement) => {
+      const list = button.parentElement;
+      if (!list) return;
+      list.querySelectorAll('.opt').forEach((opt) => opt.classList.remove('is-active'));
+      button.classList.add('is-active');
+    };
+
+    const renderResult = () => {
+      const total = answers.house + answers.use;
+      const tier = total <= 2 ? 0 : total <= 4 ? 1 : total === 5 ? 2 : 3;
+      const plan = personalPlans[tier];
+
+      const name = root!.querySelector<HTMLElement>('#rec-name');
+      const price = root!.querySelector<HTMLElement>('#rec-price');
+      const meter = root!.querySelector<HTMLElement>('#rec-meter');
+      const speed = root!.querySelector<HTMLElement>('#rec-speed');
+      const features = root!.querySelector<HTMLElement>('#rec-features');
+      const cta = root!.querySelector<HTMLAnchorElement>('#rec-cta');
+
+      if (name) name.textContent = plan.name;
+      if (price) price.textContent = `R$ ${plan.price}`;
+      if (speed) speed.textContent = `Download até ${plan.speedLabel ?? `${plan.speed} Mbps`}`;
+      if (meter) meter.style.width = `${Math.max(20, (Number(plan.speed) / 1000) * 100)}%`;
+
+      if (features) {
+        features.innerHTML = '';
+        plan.features.forEach((feature, index) => {
+          const li = document.createElement('li');
+          li.style.setProperty('--i', String(index));
+          li.innerHTML = `${checkSvg}<span>${feature}</span>`;
+          features.appendChild(li);
+        });
+      }
+
+      if (cta) {
+        const message = `Olá! Fiz o teste no site da RZnet e meu plano ideal é o ${plan.name}. Quero assinar!`;
+        cta.href = `${whatsappUrl}&text=${encodeURIComponent(message)}`;
+      }
+    };
+
+    root.querySelectorAll<HTMLElement>('[data-step="1"] .opt').forEach((button) => {
+      button.addEventListener('click', () => {
+        answers.house = Number(button.dataset.score);
+        mark(button);
+        show(2);
+      });
+    });
+
+    root.querySelector('#rec-back')?.addEventListener('click', () => show(1));
+
+    root.querySelectorAll<HTMLElement>('[data-step="2"] .opt').forEach((button) => {
+      button.addEventListener('click', () => {
+        answers.use = Number(button.dataset.score);
+        mark(button);
+        renderResult();
+        show(3);
+      });
+    });
+
+    root.querySelector('#rec-reset')?.addEventListener('click', () => {
+      answers.house = 0;
+      answers.use = 0;
+      root.querySelectorAll('.opt').forEach((opt) => opt.classList.remove('is-active'));
+      show(1);
+    });
+
+    show(1);
+  }
+</script>

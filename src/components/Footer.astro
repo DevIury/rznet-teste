@@ -1,109 +1,104 @@
 ---
-const currentYear = new Date().getFullYear();
+import Icon from './Icon.astro';
+import { whatsappUrl, centralUrl, contact, footerLinks } from '../data/site';
 
-const footerLinks = {
-  menu: [
-    { label: 'Início', href: '/' },
-    { label: 'Empresa', href: '/empresa' },
-    { label: 'Cobertura', href: '/cobertura' },
-    { label: 'Planos', href: '/planos' },
-    { label: 'Dúvidas Frequentes', href: '/duvidas' },
-    { label: 'Contato', href: '/contato' },
-  ],
-  planos: [
-    { label: 'Para Você', href: '/planos' },
-    { label: 'Para Empresas', href: '/planos' },
-  ],
-};
-
-const contactInfo = {
-  phone: '(38) 3729-6550',
-  whatsapp: '(38) 3729-6550',
-  backupPhones: [
-    '(38) 9.9854-6552',
-    '(38) 9.9875-6553',
-    '(38) 9.9882-6553',
-    '(38) 9.9737-6551',
-    '(38) 9.9745-8420',
-    '(38) 9.9846-1532',
-  ],
-  address: 'Rua Sete de Setembro, 205 - Centro, Curvelo - MG, 35790-345',
-};
+const year = new Date().getFullYear();
 ---
 
-<footer class="relative border-t border-white/5 bg-dark">
-  <div class="absolute inset-0 hero-gradient opacity-30 pointer-events-none"></div>
-  
-  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+<footer class="border-t border-line bg-surface">
+  <div class="pad-x py-16 lg:py-20">
+    <div class="grid gap-12 lg:grid-cols-[1.3fr_0.9fr_1.1fr]">
       <div>
-        <a href="/" class="flex items-center gap-3 mb-6">
-          <img src="/logo.png" alt="RzNet Fibra" class="h-[176px] w-auto drop-shadow-lg" />
+        <a href="/" class="inline-block" aria-label="RZnet — página inicial">
+          <img src="/logo.png" alt="RZnet" class="h-16 w-auto" decoding="async" />
         </a>
-        <p class="text-sm text-gray-500 leading-relaxed">
-          Internet de alta velocidade com fibra óptica premium. Presente em 17 localidades mineiras com mais de 20 anos de experiência.
+        <p class="display mt-5 text-lg text-ink">
+          Internet rápida,<br /><span class="text-brand">como deve ser.</span>
         </p>
-      </div>
-
-      <div>
-        <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-6">Menu</h3>
-        <ul class="space-y-3">
-          {footerLinks.menu.map((link) => (
-            <li>
-              <a href={link.href} class="text-sm text-gray-500 hover:text-brand transition-colors">
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-6">Planos</h3>
-        <ul class="space-y-3">
-          {footerLinks.planos.map((link) => (
-            <li>
-              <a href={link.href} class="text-sm text-gray-500 hover:text-brand transition-colors">
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-6">Contato</h3>
-        <div class="space-y-4">
-          <div class="flex items-start gap-3">
-            <svg class="h-5 w-5 text-brand mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-            </svg>
-            <div>
-              <a href="https://api.whatsapp.com/send?phone=553837296550" target="_blank" rel="noopener noreferrer" class="text-sm text-white font-medium hover:text-brand transition-colors">{contactInfo.phone}</a>
-              <p class="text-xs text-gray-600">WhatsApp e Ligações</p>
-            </div>
-          </div>
-          
-          <div class="flex items-start gap-3">
-            <svg class="h-5 w-5 text-brand mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-            <a href="https://maps.google.com/?q=Rua+Sete+de+Setembro+205+Centro+Curvelo+MG+35790-345" target="_blank" rel="noopener noreferrer" class="text-sm text-gray-500 hover:text-brand transition-colors">{contactInfo.address}</a>
-          </div>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="btn btn-red btn-sm">
+            <Icon name="whatsapp" class="h-4 w-4" />
+            Assine agora
+          </a>
+          <a href={centralUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
+            Central do Assinante
+          </a>
         </div>
+      </div>
+
+      <div>
+        <h2 class="mono mb-6 text-ink/65">Links rápidos</h2>
+        <ul class="space-y-3.5">
+          {
+            footerLinks.menu.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-muted transition-colors hover:text-brand-light">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="mono mb-6 text-ink/65">Contato</h2>
+        <ul class="space-y-4 text-sm">
+          <li class="flex items-start gap-3">
+            <Icon name="phone" class="mt-0.5 h-4.5 w-4.5 shrink-0 text-brand" />
+            <div>
+              <a href={contact.phoneHref} class="font-medium text-ink transition-colors hover:text-brand">
+                {contact.phone}
+              </a>
+              <p class="mt-0.5 text-xs text-ink/65">Seg a Sex 8h–18h · Sáb 8h–12h</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <Icon name="mail" class="mt-0.5 h-4.5 w-4.5 shrink-0 text-brand" />
+            <a href={`mailto:${contact.email}`} class="text-muted transition-colors hover:text-brand-light">
+              {contact.email}
+            </a>
+          </li>
+          <li class="flex items-start gap-3">
+            <Icon name="pin" class="mt-0.5 h-4.5 w-4.5 shrink-0 text-brand" />
+            <a
+              href={contact.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-muted transition-colors hover:text-brand-light"
+            >
+              {contact.address}
+            </a>
+          </li>
+        </ul>
+
+        <h2 class="mono mb-4 mt-8 text-ink/65">Redes sociais</h2>
+        <ul class="flex flex-wrap gap-2.5">
+          {
+            contact.socials.map((social) => (
+              <li>
+                <a
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mono inline-block border border-line px-3 py-2.5 text-ink/60 transition-colors hover:border-brand hover:text-brand"
+                >
+                  {social.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
 
-    <div class="mt-12 pt-8 border-t border-white/5">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-        <p class="text-sm text-gray-600">
-          © {currentYear} RzNet Fibra - Todos os direitos reservados.
-        </p>
-        <p class="text-xs text-gray-700">
-          Fibra óptica premium em Curvelo e região
-        </p>
-      </div>
+    <div class="rule mt-14"></div>
+
+    <div class="flex flex-col items-start justify-between gap-3 pt-6 sm:flex-row sm:items-center">
+      <p class="text-sm text-ink/65">
+        © {year} RZnet — Todos os direitos reservados.
+      </p>
+      <p class="mono text-ink/65">Curvelo · MG · Brasil</p>
     </div>
   </div>
 </footer>

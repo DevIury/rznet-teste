@@ -1,0 +1,598 @@
+---
+import { navItems, whatsappUrl, centralUrl, contact } from '../data/site';
+import Icon from './Icon.astro';
+
+const normalize = (path: string) => (path.length > 1 ? path.replace(/\/+$/, '') : '/');
+const current = normalize(Astro.url.pathname);
+const isActive = (href: string) => !href.startsWith('#') && normalize(href) === current;
+const num = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<div class="utility">
+  <div class="utility-wrap pad-x">
+    <a href={contact.phoneHref} class="utility-item">
+      <Icon name="phone" class="utility-icon" />
+      {contact.phone}
+    </a>
+    <a href={`mailto:${contact.email}`} class="utility-item utility-email">
+      <Icon name="mail" class="utility-icon" />
+      {contact.email}
+    </a>
+    <span class="utility-item utility-end">
+      <Icon name="clock" class="utility-icon" />
+      Seg a Sex 8h–18h · Sáb 8h–12h
+    </span>
+  </div>
+</div>
+
+<header id="site-header" class="site-header">
+  <div class="capsule">
+    <a href="/" class="brand" aria-label="RzNet Fibra — início">
+      <img src="/logo.png" alt="RzNet Fibra" class="brand-logo" decoding="async" />
+    </a>
+
+    <nav class="nav-desktop" aria-label="Navegação principal">
+      <span class="nav-pill" aria-hidden="true"></span>
+      <ul class="nav-links">
+        {
+          navItems.map((item, index) => (
+            <li>
+              <a
+                href={item.href}
+                class="nav-link"
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                <span class="link-num" aria-hidden="true">{num(index)}</span>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="capsule-actions">
+      <a
+        href={centralUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="nav-util nav-util-icon"
+        aria-label="Área do cliente"
+        title="Área do cliente"
+      >
+        <Icon name="user" class="h-[18px] w-[18px]" />
+      </a>
+      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="btn btn-red btn-sm">
+        <Icon name="whatsapp" class="h-4 w-4" />
+        Assine agora
+      </a>
+      <button
+        type="button"
+        id="nav-toggle"
+        class="burger"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <span class="nav-open"><Icon name="menu" class="h-5 w-5" /></span>
+        <span class="nav-close hidden"><Icon name="close" class="h-5 w-5" /></span>
+      </button>
+    </div>
+
+    <div id="mobile-nav" class="mobile-panel">
+      <nav aria-label="Navegação móvel">
+        <ul class="mobile-links">
+          {
+            navItems.map((item, index) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="m-link"
+                  style={`--i:${index}`}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                >
+                  <span class="link-num" aria-hidden="true">{num(index)}</span>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="mobile-ctas">
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="btn btn-red w-full">
+            <Icon name="whatsapp" class="h-4 w-4" />
+            Assine agora
+          </a>
+          <a href={centralUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline w-full">
+            Área do cliente
+          </a>
+          <a href={contact.phoneHref} class="mobile-phone">{contact.phone}</a>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<style>
+  .utility {
+    border-bottom: 1px solid var(--color-line);
+    background: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--color-muted);
+  }
+
+  .utility-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px 22px;
+    min-height: 34px;
+    max-width: 1180px;
+    margin-inline: auto;
+  }
+
+  .utility-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  a.utility-item:hover {
+    color: var(--color-brand);
+  }
+
+  .utility-icon {
+    width: 14px;
+    height: 14px;
+    flex: none;
+    color: var(--color-brand);
+  }
+
+  .utility-end {
+    margin-left: auto;
+  }
+
+  @media (max-width: 559px) {
+    .utility-end {
+      display: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .utility-email {
+      display: none;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .utility {
+      font-size: 12px;
+    }
+  }
+
+  .site-header {
+    position: sticky;
+    top: 10px;
+    z-index: 50;
+    width: calc(100% - 24px);
+    max-width: 1180px;
+    margin: 10px auto 0;
+  }
+
+  .capsule {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 8px 8px 18px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.9);
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    box-shadow: inset 0 1px #fff;
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .capsule {
+      background: rgb(255 255 255 / 0.97);
+    }
+  }
+
+  .site-header.is-stuck .capsule {
+    background: rgb(255 255 255 / 0.96);
+    box-shadow:
+      inset 0 1px #fff,
+      0 24px 48px -24px rgb(23 23 26 / 0.25);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    outline: none;
+  }
+
+  .brand:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 6px;
+    border-radius: 8px;
+  }
+
+  .brand-logo {
+    height: 44px;
+    width: auto;
+    display: block;
+  }
+
+  @media (min-width: 1024px) {
+    .brand-logo {
+      height: 52px;
+    }
+  }
+
+  .nav-desktop {
+    position: relative;
+    display: none;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 7px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: rgb(23 23 26 / 0.72);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    color: #000;
+  }
+
+  .nav-link[aria-current='page'] {
+    color: #000;
+  }
+
+  .nav-link:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 0;
+  }
+
+  .link-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: rgb(23 23 26 / 0.4);
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:hover .link-num,
+  .nav-link:focus-visible .link-num,
+  .nav-link[aria-current='page'] .link-num {
+    color: var(--color-brand);
+  }
+
+  .nav-pill {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: var(--w, 0px);
+    height: 36px;
+    opacity: var(--o, 0);
+    transform: translate(var(--x, 0px), -50%);
+    border: 1px solid rgb(230 0 0 / 0.35);
+    border-radius: 999px;
+    background: rgb(230 0 0 / 0.07);
+    pointer-events: none;
+    transition:
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.25s ease;
+  }
+
+  .capsule-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: none;
+  }
+
+  .nav-util {
+    display: none;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .nav-util:hover {
+    color: var(--color-brand);
+  }
+
+  .nav-util-icon {
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    color: var(--color-ink);
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .nav-util-icon:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  .burger {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgb(23 23 26 / 0.2);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+  }
+
+  .burger:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  .mobile-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 20;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+    padding: 8px 20px 20px;
+    border: 1px solid var(--color-line);
+    border-radius: 24px;
+    background: rgb(255 255 255 / 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 24px 48px -20px rgb(23 23 26 / 0.25);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+    transform-origin: 50% 0;
+    transition:
+      opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0s 0.3s;
+  }
+
+  .mobile-panel.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .mobile-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .m-link {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 14px 2px;
+    border-bottom: 1px solid var(--color-line);
+    font-size: 17px;
+    font-weight: 700;
+    color: rgb(23 23 26 / 0.85);
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      color 0.2s ease;
+  }
+
+  .mobile-panel.is-open .m-link {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(60ms + var(--i, 0) * 45ms);
+  }
+
+  .m-link:hover,
+  .m-link[aria-current='page'] {
+    color: var(--color-brand);
+  }
+
+  .m-link[aria-current='page'] .link-num {
+    color: var(--color-brand);
+  }
+
+  .mobile-ctas {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .mobile-phone {
+    display: block;
+    margin-top: 6px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  @media (min-width: 1024px) {
+    .site-header {
+      width: min(1180px, calc(100% - 48px));
+    }
+
+    .capsule {
+      padding: 8px 8px 8px 24px;
+      gap: 24px;
+    }
+
+    .nav-desktop {
+      display: flex;
+    }
+
+    .burger {
+      display: none;
+    }
+
+    .mobile-panel {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1199px) {
+    .nav-util {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .nav-util {
+      display: inline-flex;
+    }
+
+    .link-num {
+      display: inline;
+    }
+  }
+
+  @media (max-width: 1199px) {
+    .nav-desktop .link-num {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1024px) and (max-width: 1199px) {
+    .nav-link {
+      padding-inline: 10px;
+      font-size: 13.5px;
+    }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('nav-toggle');
+  const panel = document.getElementById('mobile-nav');
+  const openIcon = toggle?.querySelector('.nav-open');
+  const closeIcon = toggle?.querySelector('.nav-close');
+
+  const setPanel = (open: boolean) => {
+    if (!panel || !toggle) return;
+    panel.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    openIcon?.classList.toggle('hidden', open);
+    closeIcon?.classList.toggle('hidden', !open);
+    document.body.classList.toggle('menu-open', open);
+  };
+
+  toggle?.addEventListener('click', () => {
+    setPanel(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  panel?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setPanel(false));
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+      setPanel(false);
+      toggle.focus();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 1024) setPanel(false);
+  });
+
+  const onScroll = () => header?.classList.toggle('is-stuck', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const navDesktop = document.querySelector('.nav-desktop');
+  const pill = navDesktop?.querySelector<HTMLElement>('.nav-pill');
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav-desktop .nav-link'));
+  const active = document.querySelector<HTMLElement>('.nav-desktop .nav-link[aria-current="page"]');
+
+  const movePill = (el: HTMLElement | null | undefined) => {
+    if (!pill || !navDesktop) return;
+    if (!el) {
+      pill.style.setProperty('--o', '0');
+      return;
+    }
+    const rect = el.getBoundingClientRect();
+    const base = navDesktop.getBoundingClientRect();
+    pill.style.setProperty('--x', `${rect.left - base.left}px`);
+    pill.style.setProperty('--w', `${rect.width}px`);
+    pill.style.setProperty('--o', '1');
+  };
+
+  links.forEach((link) => {
+    link.addEventListener('mouseenter', () => movePill(link));
+    link.addEventListener('focus', () => movePill(link));
+  });
+
+  navDesktop?.addEventListener('mouseleave', () => movePill(active));
+  window.addEventListener('resize', () => movePill(active));
+
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => movePill(active));
+  } else {
+    movePill(active);
+  }
+</script>

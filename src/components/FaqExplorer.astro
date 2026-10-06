@@ -1,0 +1,323 @@
+﻿---
+import Icon from './Icon.astro';
+
+interface Item {
+  question: string;
+  answer: string;
+  category: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+
+const slug = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-');
+
+const categories = [...new Set(items.map((item) => item.category))];
+---
+
+<div class="faq-explorer">
+  <div class="faq-controls">
+    <div class="faq-search">
+      <Icon name="help" class="h-4 w-4 shrink-0 text-ink/65" />
+      <input
+        type="search"
+        id="faq-search"
+        class="faq-input"
+        placeholder="Busque por palavra-chave..."
+        autocomplete="off"
+        aria-label="Buscar pergunta"
+      />
+    </div>
+
+    <div class="faq-chips" role="group" aria-label="Filtrar por categoria">
+      <button type="button" class="chip is-active" data-category="all">Todas</button>
+      {
+        categories.map((category) => (
+          <button type="button" class="chip" data-category={slug(category)}>
+            {category}
+          </button>
+        ))
+      }
+    </div>
+
+    <p class="mono mt-5 text-ink/65">
+      <span id="faq-count">{items.length}</span> de {items.length} perguntas
+    </p>
+  </div>
+
+  <div id="faq-list" class="faq-list">
+    {
+      items.map((item) => (
+        <div
+          class="faq-item"
+          data-category={slug(item.category)}
+          data-text={`${item.question} ${item.answer}`.toLowerCase()}
+        >
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span class="faq-tag">{item.category}</span>
+            <span class="faq-question">{item.question}</span>
+            <span class="faq-mark">
+              <Icon name="plus" class="h-4 w-4" strokeWidth={2} />
+            </span>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">
+              <p>{item.answer}</p>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div id="faq-empty" class="faq-empty hidden">
+    <p class="font-medium text-ink">Nenhuma pergunta encontrada.</p>
+    <p class="mt-2 text-sm text-muted">Tente outra palavra ou fale com nosso time pelo WhatsApp.</p>
+  </div>
+</div>
+
+<style>
+  .faq-search {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid rgb(23 23 26 / 0.25);
+    padding-block: 0.65rem;
+    transition: border-color 0.25s ease;
+  }
+
+  .faq-search:focus-within {
+    border-color: var(--color-brand);
+  }
+
+  .faq-input {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    font-size: 1rem;
+    color: var(--color-ink);
+  }
+
+  .faq-input::placeholder {
+    color: #6f6f78;
+  }
+
+  .faq-input:focus {
+    outline: none;
+  }
+
+  .faq-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.4rem;
+  }
+
+  .chip {
+    border: 1px solid rgb(23 23 26 / 0.2);
+    padding: 0.5rem 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgb(23 23 26 / 0.65);
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      color 0.25s ease;
+  }
+
+  .chip:hover {
+    border-color: rgb(23 23 26 / 0.5);
+    color: var(--color-ink);
+  }
+
+  .chip.is-active {
+    border-color: var(--color-brand);
+    background-color: var(--color-brand);
+    color: #fff;
+  }
+
+  .faq-list {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .faq-item.is-hidden {
+    display: none;
+  }
+
+  .faq-q {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    width: 100%;
+    padding: 1.25rem 0.25rem;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      background-color 0.3s ease,
+      padding-left 0.3s ease;
+  }
+
+  .faq-q:hover {
+    background-color: rgb(23 23 26 / 0.04);
+    padding-left: 0.75rem;
+  }
+
+  .faq-tag {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+    border: 1px solid rgb(23 23 26 / 0.2);
+    padding: 0.35rem 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-brand-light);
+    white-space: nowrap;
+  }
+
+  .faq-question {
+    font-size: clamp(0.98rem, 1.6vw, 1.12rem);
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--color-ink);
+    letter-spacing: -0.01em;
+  }
+
+  .faq-mark {
+    display: flex;
+    height: 2.25rem;
+    width: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(23 23 26 / 0.3);
+    color: var(--color-ink);
+    transition:
+      transform 0.35s ease,
+      background-color 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .faq-item.is-open .faq-mark {
+    background-color: var(--color-brand);
+    border-color: var(--color-brand);
+    color: #ffffff;
+    transform: rotate(45deg);
+  }
+
+  .faq-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .faq-item.is-open .faq-panel {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-panel-inner {
+    overflow: hidden;
+  }
+
+  .faq-panel-inner p {
+    max-width: 72ch;
+    padding: 0 0.25rem 1.6rem 9.25rem;
+    color: var(--color-muted);
+    line-height: 1.75;
+  }
+
+  @media (max-width: 640px) {
+    .faq-q {
+      grid-template-columns: 1fr auto;
+      gap: 0.75rem 1rem;
+    }
+
+    .faq-tag {
+      grid-column: 1 / -1;
+      justify-self: start;
+      width: auto;
+    }
+
+    .faq-panel-inner p {
+      padding-left: 0.25rem;
+    }
+  }
+
+  .faq-empty {
+    border: 1px solid var(--color-line);
+    padding: 2.5rem 1.75rem;
+    text-align: center;
+  }
+</style>
+
+<script>
+  const search = document.getElementById('faq-search') as HTMLInputElement | null;
+  const list = document.getElementById('faq-list');
+  const count = document.getElementById('faq-count');
+  const empty = document.getElementById('faq-empty');
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.chip'));
+  const items = Array.from(document.querySelectorAll<HTMLElement>('.faq-item'));
+
+  let activeCategory = 'all';
+
+  const applyFilter = () => {
+    const query = (search?.value ?? '').trim().toLowerCase();
+    let visible = 0;
+
+    items.forEach((item) => {
+      const matchCategory = activeCategory === 'all' || item.dataset.category === activeCategory;
+      const matchText = !query || (item.dataset.text ?? '').includes(query);
+      const show = matchCategory && matchText;
+      item.classList.toggle('is-hidden', !show);
+      if (show) visible += 1;
+      if (!show) {
+        item.classList.remove('is-open');
+        item.querySelector('.faq-q')?.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    if (count) count.textContent = String(visible);
+    empty?.classList.toggle('hidden', visible > 0);
+  };
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      chips.forEach((other) => other.classList.remove('is-active'));
+      chip.classList.add('is-active');
+      activeCategory = chip.dataset.category ?? 'all';
+      applyFilter();
+    });
+  });
+
+  search?.addEventListener('input', applyFilter);
+
+  list?.querySelectorAll<HTMLElement>('.faq-item').forEach((item) => {
+    const button = item.querySelector<HTMLButtonElement>('.faq-q');
+    button?.addEventListener('click', () => {
+      const willOpen = !item.classList.contains('is-open');
+      list?.querySelectorAll<HTMLElement>('.faq-item.is-open').forEach((other) => {
+        other.classList.remove('is-open');
+        other.querySelector('.faq-q')?.setAttribute('aria-expanded', 'false');
+      });
+      item.classList.toggle('is-open', willOpen);
+      button.setAttribute('aria-expanded', String(willOpen));
+    });
+  });
+</script>
